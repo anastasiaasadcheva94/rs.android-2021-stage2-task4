@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,11 +25,7 @@ import kotlinx.coroutines.launch
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AnimalFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class AnimalFragment : Fragment() {
     private var _binding: FragmentAnimalBinding? = null
     private val binding get() = _binding!!
@@ -64,15 +59,10 @@ class AnimalFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAnimalBinding.inflate(inflater, container, false)
-
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val db = AnimalRoomDatabase.getDatabase(this)
-
-        GlobalScope.launch(Dispatchers.Main) {
-            val animalList = db.animalDao().getAllAnimal()
-            binding.recyclerView.adapter = AnimalAdapter(animalList)
-        }
+        initButton()
+        initDB()
 
         return binding.root
     }
@@ -80,13 +70,29 @@ class AnimalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar2.title = "Animal"
+    }
+
+    private fun initDB(){
+        val db = AnimalRoomDatabase.getDatabase(this)
+
+        GlobalScope.launch(Dispatchers.Main) {
+            val animalList = db.animalDao().getAllAnimal()
+
+            var newAnimalList = mutableListOf(animalList)
+//            newAnimalList.sortBy {  }
+
+            binding.recyclerView.adapter = AnimalAdapter(animalList)
+        }
+    }
+
+
+    private fun initButton(){
         binding.actionFilter.setOnClickListener {
             buttonListener.second(
                     SortByFragment.newInstance(
                             "",
                             "")
             )
-            Toast.makeText(activity, "Click", Toast.LENGTH_SHORT).show()
         }
 
         binding.floatingActionButton.setOnClickListener {
@@ -103,6 +109,8 @@ class AnimalFragment : Fragment() {
         _binding = null
     }
 
+
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -112,7 +120,7 @@ class AnimalFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment AnimalFragment.
          */
-        // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
                 AnimalFragment().apply {
@@ -123,6 +131,7 @@ class AnimalFragment : Fragment() {
                 }
     }
 }
+
 
 
 class AnimalAdapter(private var animals: List<AnimalEntity>) : RecyclerView.Adapter<AnimalAdapter.ViewHolder>() {
@@ -136,7 +145,9 @@ class AnimalAdapter(private var animals: List<AnimalEntity>) : RecyclerView.Adap
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = "Name: " + animals[position].name
-        holder.age.text = "Age: " + animals[position].age
+        holder.age.text = "Age: " +
+                animals[position].age
+
         holder.breed.text = "Breed: " + animals[position].breed
     }
 

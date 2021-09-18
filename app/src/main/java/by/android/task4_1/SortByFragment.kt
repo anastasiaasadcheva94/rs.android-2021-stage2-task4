@@ -1,10 +1,16 @@
 package by.android.task4_1
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import by.android.task4_1.databinding.FragmentAnimalBinding
+import by.android.task4_1.databinding.FragmentSortByBinding
+import by.android.task4_1.interfaces.ButtonListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,9 +23,23 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class SortByFragment : Fragment() {
+    private var _binding: FragmentSortByBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var buttonListener: ButtonListener
+    
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            buttonListener = context as ButtonListener
+        } catch (e: Exception) {
+            throw RuntimeException("$context must implement QuizFragmentListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +52,47 @@ class SortByFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sort_by, container, false)
+    ): View {
+        _binding = FragmentSortByBinding.inflate(inflater, container, false)
+        binding.buttonName.setOnClickListener { onNameClick() }
+        binding.buttonAge.setOnClickListener { onAgeClick() }
+        binding.buttonBreed.setOnClickListener { onBreedClick() }
+
+        return binding.root
+    }
+
+    private fun onNameClick() {
+        Toast.makeText(activity, "click1", Toast.LENGTH_SHORT).show()
+        back()
+    }
+
+    private fun onAgeClick() {
+        Toast.makeText(activity, "click2", Toast.LENGTH_SHORT).show()
+        back()
+    }
+
+    private fun onBreedClick() {
+        Toast.makeText(activity, "click3", Toast.LENGTH_SHORT).show()
+        back()
+    }
+
+    private fun back(){
+        buttonListener.second(
+                AnimalFragment.newInstance(
+                        "",
+                        "")
+        )
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.toolbar.root.title = "Sort by"
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

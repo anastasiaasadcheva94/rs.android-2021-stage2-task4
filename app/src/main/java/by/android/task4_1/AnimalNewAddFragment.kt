@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import by.android.task4_1.databinding.FragmentAnimalAddBinding
 import by.android.task4_1.databinding.FragmentAnimalBinding
 import by.android.task4_1.db.AnimalEntity
@@ -55,7 +56,7 @@ class AnimalAddFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAnimalAddBinding.inflate(inflater, container, false)
 
@@ -74,21 +75,24 @@ class AnimalAddFragment : Fragment() {
         val db = AnimalRoomDatabase.getDatabase(AnimalFragment())
 
         binding.addButton.setOnClickListener {
-            name = binding.editName.text.toString()
-            age = binding.editAge.text.toString()
-            breed = binding.editBreed.text.toString()
+            if (binding.editName.text.isNotEmpty() && binding.editAge.text.isNotEmpty() && binding.editBreed.text.isNotEmpty()){
+                name = binding.editName.text.toString()
+                age = binding.editAge.text.toString()
+                breed = binding.editBreed.text.toString()
+                val animalEntity = AnimalEntity(id, name, age, breed)
 
-            val animalEntity = AnimalEntity(id, name, age, breed)
-
-            GlobalScope.launch(Dispatchers.IO) {
-                db.animalDao().insert(animalEntity)
-            }
+                GlobalScope.launch(Dispatchers.IO) {
+                    db.animalDao().insert(animalEntity)
+                }
 
                 buttonListener.second(
                         AnimalFragment.newInstance(
                                 "",
                                 "")
                 )
+            } else {
+                Toast.makeText(activity, "Edit values", Toast.LENGTH_SHORT).show()
+          }
         }
     }
 
