@@ -8,31 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import by.android.task4_1.databinding.FragmentAnimalAddBinding
-import by.android.task4_1.databinding.FragmentAnimalBinding
-import by.android.task4_1.db.AnimalEntity
-import by.android.task4_1.db.AnimalRoomDatabase
 import by.android.task4_1.interfaces.ButtonListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AnimalAddFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AnimalAddFragment : Fragment() {
-    private var _binding: FragmentAnimalAddBinding? = null
-    private val binding get() = _binding!!
+
+class AnimalNewAddFragment : Fragment() {
+    private lateinit var binding: FragmentAnimalAddBinding
 
     private lateinit var buttonListener: ButtonListener
-    // TODO: Rename and change types of parameters
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -41,7 +27,7 @@ class AnimalAddFragment : Fragment() {
         try {
             buttonListener = context as ButtonListener
         } catch (e: Exception) {
-            throw RuntimeException("$context must implement QuizFragmentListener")
+            throw RuntimeException("$context must implement AnimalNewAddFragment")
         }
     }
 
@@ -57,8 +43,7 @@ class AnimalAddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        _binding = FragmentAnimalAddBinding.inflate(inflater, container, false)
+        binding = FragmentAnimalAddBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -72,23 +57,21 @@ class AnimalAddFragment : Fragment() {
         var age = ""
         var breed = ""
 
-        val db = AnimalRoomDatabase.getDatabase(AnimalFragment())
+//        val db = AnimalRoomDatabase.getDatabase(context?.applicationContext)
 
         binding.addButton.setOnClickListener {
             if (binding.editName.text.isNotEmpty() && binding.editAge.text.isNotEmpty() && binding.editBreed.text.isNotEmpty()){
                 name = binding.editName.text.toString()
                 age = binding.editAge.text.toString()
                 breed = binding.editBreed.text.toString()
-                val animalEntity = AnimalEntity(id, name, age, breed)
+//                val animalEntity = AnimalEntity(id, name, age, breed)
 
-                GlobalScope.launch(Dispatchers.IO) {
-                    db.animalDao().insert(animalEntity)
-                }
+//                GlobalScope.launch(Dispatchers.IO) {
+//                    db.animalDao().insert(animalEntity)
+//                }
 
                 buttonListener.second(
-                        AnimalFragment.newInstance(
-                                "",
-                                "")
+                        AnimalFragment.newInstance()
                 )
             } else {
                 Toast.makeText(activity, "Edit values", Toast.LENGTH_SHORT).show()
@@ -97,22 +80,9 @@ class AnimalAddFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AnimalAddFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AnimalAddFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        fun newInstance() =
+            AnimalNewAddFragment().apply {
             }
     }
 }

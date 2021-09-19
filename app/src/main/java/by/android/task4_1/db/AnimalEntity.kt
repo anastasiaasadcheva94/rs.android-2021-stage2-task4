@@ -3,10 +3,11 @@ package by.android.task4_1.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 
 @Entity(tableName = "animals_table")
-data class AnimalEntity(
+data class AnimalEntity (
     @PrimaryKey(autoGenerate = true) var id: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "age") val age: String,
