@@ -12,14 +12,10 @@ abstract class AnimalRoomDatabase : RoomDatabase() {
     abstract fun animalDao(): AnimalDao
 
     companion object {
-        // Singleton prevents multiple instances of database opening at the
-        // same time.
-        @Volatile
+          @Volatile
         private var INSTANCE: AnimalRoomDatabase? = null
 
         fun getDatabase(context: AnimalFragment): AnimalRoomDatabase {
-            // if the INSTANCE is not null, then return it,
-            // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.requireContext(),

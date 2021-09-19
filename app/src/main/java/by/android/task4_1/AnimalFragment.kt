@@ -78,7 +78,7 @@ class AnimalFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             val animalList = db.animalDao().getAllAnimal()
 
-            var newAnimalList = mutableListOf(animalList)
+//            var newAnimalList = mutableListOf(animalList)
 //            newAnimalList.sortBy {  }
 
             binding.recyclerView.adapter = AnimalAdapter(animalList)

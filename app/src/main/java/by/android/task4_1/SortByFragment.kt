@@ -2,6 +2,7 @@ package by.android.task4_1
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,11 @@ import android.widget.Button
 import android.widget.Toast
 import by.android.task4_1.databinding.FragmentAnimalBinding
 import by.android.task4_1.databinding.FragmentSortByBinding
+import by.android.task4_1.db.AnimalRoomDatabase
 import by.android.task4_1.interfaces.ButtonListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +32,8 @@ class SortByFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var buttonListener: ButtonListener
+    private val db = AnimalRoomDatabase.getDatabase(AnimalFragment())
+    private var sortedList: List<Any> = arrayListOf()
     
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -61,17 +68,40 @@ class SortByFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.toolbar.root.title = "Sort by"
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun onNameClick() {
+        GlobalScope.launch(Dispatchers.IO) {
+            sortedList = db.animalDao().getAlphabetizedName()
+        }
+        Log.d("TAG", "$sortedList")
         Toast.makeText(activity, "click1", Toast.LENGTH_SHORT).show()
         back()
     }
 
     private fun onAgeClick() {
+        GlobalScope.launch(Dispatchers.IO) {
+            sortedList = db.animalDao().getSortedAge()
+        }
+        Log.d("TAG", "$sortedList")
         Toast.makeText(activity, "click2", Toast.LENGTH_SHORT).show()
         back()
     }
 
     private fun onBreedClick() {
+        GlobalScope.launch(Dispatchers.IO) {
+            sortedList = db.animalDao().getAlphabetizedBreed()
+            Log.d("TAG", "$sortedList")
+        }
         Toast.makeText(activity, "click3", Toast.LENGTH_SHORT).show()
         back()
     }
@@ -82,17 +112,6 @@ class SortByFragment : Fragment() {
                         "",
                         "")
         )
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.root.title = "Sort by"
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {
