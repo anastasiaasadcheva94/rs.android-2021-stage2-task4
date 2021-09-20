@@ -5,11 +5,10 @@ import androidx.fragment.app.Fragment
 interface ButtonListener {
     fun second (nextFragment:Fragment)
 
-    fun sortByName()
+    fun filterByName()
 
-    fun sortByAge()
+    fun filterByAge()
 
-    fun sortByBreed()
+    fun filterByBreed()
 
-    fun addNewAnimal()
 }

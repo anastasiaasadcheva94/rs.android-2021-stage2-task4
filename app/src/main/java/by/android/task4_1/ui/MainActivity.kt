@@ -1,10 +1,12 @@
-package by.android.task4_1
+package by.android.task4_1.ui
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import by.android.task4_1.AnimalFragment
+import by.android.task4_1.R
 import by.android.task4_1.databinding.ActivityMainBinding
 import by.android.task4_1.db.AnimalEntity
 import by.android.task4_1.db.AnimalRoomDatabase
@@ -29,9 +31,8 @@ class MainActivity : AppCompatActivity(), ButtonListener {
 
 
     private fun openFirstFragment() {
-        val animalFragment: Fragment = AnimalFragment.newInstance()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, animalFragment)
+            .replace(R.id.container, AnimalFragment())
             .addToBackStack(null)
             .commit()
     }
@@ -47,42 +48,36 @@ class MainActivity : AppCompatActivity(), ButtonListener {
         openSecondFragment(nextFragment)
     }
 
-    override fun sortByName() {
+    override fun filterByName() {
         val db = AnimalRoomDatabase.getDatabase(this)
         GlobalScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main){
-                sortedList = db.animalDao().getAlphabetizedName()
+                sortedList = db.animalDao().getFilteredListByName()
                 Log.d("TAG", "$sortedList")
                 Toast.makeText(this@MainActivity, "click1", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    override fun sortByAge() {
+    override fun filterByAge() {
         val db = AnimalRoomDatabase.getDatabase(this)
         GlobalScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main){
-                sortedList = db.animalDao().getSortedAge()
+                sortedList = db.animalDao().getFilteredListByAge()
                 Log.d("TAG", "$sortedList")
                 Toast.makeText(this@MainActivity, "click2", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    override fun sortByBreed() {
+    override fun filterByBreed() {
         val db = AnimalRoomDatabase.getDatabase(this)
         GlobalScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main){
-                sortedList = db.animalDao().getAlphabetizedBreed()
+                sortedList = db.animalDao().getFilteredListByBreed()
                 Log.d("TAG", "$sortedList")
                 Toast.makeText(this@MainActivity, "click3", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    override fun addNewAnimal() {
-//        GlobalScope.launch(Dispatchers.IO) {
-//            db.animalDao().insert(animalEntity)
-//        }
     }
 }
