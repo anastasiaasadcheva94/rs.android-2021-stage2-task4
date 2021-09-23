@@ -20,7 +20,7 @@ interface AnimalDao {
     @Query("SELECT * FROM animals_table ORDER BY name ASC")
     suspend fun getFilteredListByName(): List<AnimalEntity>
 
-    @Query("SELECT * FROM animals_table ORDER BY age")
+    @Query("SELECT * FROM animals_table ORDER BY age ASC")
     suspend fun getFilteredListByAge(): List<AnimalEntity>
 
     @Query("SELECT * FROM animals_table ORDER BY breed ASC")

@@ -9,6 +9,6 @@ import androidx.room.PrimaryKey
 data class AnimalEntity(
         @PrimaryKey(autoGenerate = true) var id: Int,
         @ColumnInfo(name = "name") val name: String,
-        @ColumnInfo(name = "age") val age: String,
+        @ColumnInfo(name = "age") val age: Int,
         @ColumnInfo(name = "breed") val breed: String
 )

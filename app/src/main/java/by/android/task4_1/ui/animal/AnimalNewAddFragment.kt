@@ -44,13 +44,13 @@ class AnimalNewAddFragment : Fragment() {
 
         val id = 0
         var name: String
-        var age: String
+        var age: Int
         var breed: String
 
         binding.addButton.setOnClickListener {
             if (binding.editName.text.isNotEmpty() && binding.editAge.text.isNotEmpty() && binding.editBreed.text.isNotEmpty()) {
                 name = binding.editName.text.toString()
-                age = binding.editAge.text.toString()
+                age = binding.editAge.text.toString().toInt()
                 breed = binding.editBreed.text.toString()
                 val animalEntity = AnimalEntity(id, name, age, breed)
 
