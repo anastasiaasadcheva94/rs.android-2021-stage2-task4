@@ -18,10 +18,10 @@ interface AnimalDao {
     @Query("DELETE FROM animals_table")
     fun deleteAll()
 
-    @Query("SELECT * FROM animals_table WHERE name ")
+    @Query("SELECT * FROM animals_table ORDER BY name ASC")
     suspend fun getFilteredListByName(): List<AnimalEntity>
 
-    @Query("SELECT * FROM animals_table ORDER BY age ASC")
+    @Query("SELECT * FROM animals_table ORDER BY age")
     suspend fun getFilteredListByAge(): List<AnimalEntity>
 
     @Query("SELECT * FROM animals_table ORDER BY breed ASC")

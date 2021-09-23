@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import by.android.task4_1.AnimalFragment
+import by.android.task4_1.ui.animal.AnimalFragment
 import by.android.task4_1.databinding.FragmentAnimalAddBinding
 import by.android.task4_1.db.AnimalEntity
 import by.android.task4_1.db.AnimalRoomDatabase
@@ -21,15 +21,12 @@ class AnimalNewAddFragment : Fragment() {
 
     private lateinit var buttonListener: ButtonListener
 
-    private var param1: String? = null
-    private var param2: String? = null
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
             buttonListener = context as ButtonListener
         } catch (e: Exception) {
-            throw RuntimeException("$context must implement AnimalNewAddFragment")
+            throw RuntimeException("$context must implement ButtonListener")
         }
     }
 
@@ -46,10 +43,10 @@ class AnimalNewAddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.root.title = "Add new animal"
 
-        var id = 0
-        var name = ""
-        var age = ""
-        var breed = ""
+        val id = 0
+        var name: String
+        var age: String
+        var breed: String
 
         binding.addButton.setOnClickListener {
             if (binding.editName.text.isNotEmpty() && binding.editAge.text.isNotEmpty() && binding.editBreed.text.isNotEmpty()){

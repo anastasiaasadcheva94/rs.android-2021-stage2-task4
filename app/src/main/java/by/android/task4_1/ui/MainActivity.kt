@@ -5,12 +5,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import by.android.task4_1.AnimalFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import by.android.task4_1.ui.animal.AnimalFragment
 import by.android.task4_1.R
 import by.android.task4_1.databinding.ActivityMainBinding
 import by.android.task4_1.db.AnimalEntity
 import by.android.task4_1.db.AnimalRoomDatabase
 import by.android.task4_1.interfaces.ButtonListener
+import by.android.task4_1.ui.animal.adapter.AnimalAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,8 +29,16 @@ class MainActivity : AppCompatActivity(), ButtonListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         openFirstFragment()
+        initDB()
     }
 
+    fun initDB() {
+        val db = applicationContext?.let { AnimalRoomDatabase.getDatabase(applicationContext) }
+        GlobalScope.launch(Dispatchers.IO) {
+            sortedList = db?.animalDao()?.getAllAnimal()
+
+        }
+    }
 
     private fun openFirstFragment() {
         supportFragmentManager.beginTransaction()
@@ -48,13 +58,12 @@ class MainActivity : AppCompatActivity(), ButtonListener {
         openSecondFragment(nextFragment)
     }
 
+
     override fun filterByName() {
         val db = AnimalRoomDatabase.getDatabase(this)
         GlobalScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main){
                 sortedList = db.animalDao().getFilteredListByName()
-                Log.d("TAG", "$sortedList")
-                Toast.makeText(this@MainActivity, "click1", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -64,8 +73,6 @@ class MainActivity : AppCompatActivity(), ButtonListener {
         GlobalScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main){
                 sortedList = db.animalDao().getFilteredListByAge()
-                Log.d("TAG", "$sortedList")
-                Toast.makeText(this@MainActivity, "click2", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -75,9 +82,12 @@ class MainActivity : AppCompatActivity(), ButtonListener {
         GlobalScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main){
                 sortedList = db.animalDao().getFilteredListByBreed()
-                Log.d("TAG", "$sortedList")
-                Toast.makeText(this@MainActivity, "click3", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+    fun returnFilter(): List<AnimalEntity>? {
+        return sortedList
+    }
+
 }

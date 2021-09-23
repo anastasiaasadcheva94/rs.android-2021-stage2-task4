@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import by.android.task4_1.AnimalFragment
+import by.android.task4_1.ui.animal.AnimalFragment
 import by.android.task4_1.databinding.FragmentSortByBinding
 import by.android.task4_1.interfaces.ButtonListener
 
@@ -21,7 +21,7 @@ class SortByFragment : Fragment() {
         try {
             buttonListener = context as ButtonListener
         } catch (e: Exception) {
-            throw RuntimeException("$context must implement QuizFragmentListener")
+            throw RuntimeException("$context must implement ButtonListener")
         }
     }
 

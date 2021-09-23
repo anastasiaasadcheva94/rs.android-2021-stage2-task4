@@ -1,4 +1,4 @@
-package by.android.task4_1
+package by.android.task4_1.ui.animal
 
 import android.content.Context
 import android.os.Bundle
@@ -11,26 +11,24 @@ import by.android.task4_1.databinding.FragmentAnimalBinding
 import by.android.task4_1.db.AnimalEntity
 import by.android.task4_1.db.AnimalRoomDatabase
 import by.android.task4_1.interfaces.ButtonListener
-import by.android.task4_1.ui.animal.AnimalNewAddFragment
+import by.android.task4_1.ui.MainActivity
 import by.android.task4_1.ui.animal.adapter.AnimalAdapter
 import by.android.task4_1.ui.sorting.SortByFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class AnimalFragment : Fragment() {
     private lateinit var binding: FragmentAnimalBinding
     private val animalAdapter: AnimalAdapter = AnimalAdapter(arrayListOf())
 
     private lateinit var buttonListener: ButtonListener
+    private var sortedlist = listOf<AnimalEntity>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
             buttonListener = context as ButtonListener
         } catch (e: Exception) {
-            throw RuntimeException("$context must implement QuizFragmentListener")
+            throw RuntimeException("$context must implement ButtonListener")
         }
     }
 
@@ -46,8 +44,9 @@ class AnimalFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).initDB()
         initDB()
     }
 
@@ -59,12 +58,14 @@ class AnimalFragment : Fragment() {
     }
 
     private fun initDB() {
-        val db = context?.let { AnimalRoomDatabase.getDatabase(it.applicationContext) }
-        GlobalScope.launch(Dispatchers.IO) {
-            val animalList = db?.animalDao()?.getAllAnimal()
-            withContext(Dispatchers.Main) {
-                animalList?.let { getUpdatedAnimalList(it) }
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(30)
+            (activity as MainActivity).returnFilter().also {
+                if (it != null) {
+                    sortedlist = it
+                }
             }
+            getUpdatedAnimalList(sortedlist)
         }
     }
 
@@ -82,7 +83,7 @@ class AnimalFragment : Fragment() {
         }
     }
 
-    private fun getUpdatedAnimalList(list: List<AnimalEntity>) {
+      fun getUpdatedAnimalList(list: List<AnimalEntity>) {
         animalAdapter.apply {
             updateAnimalList(list)
             notifyDataSetChanged()
