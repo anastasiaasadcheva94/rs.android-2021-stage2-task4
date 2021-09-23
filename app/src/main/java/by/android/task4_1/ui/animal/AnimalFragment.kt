@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.android.task4_1.databinding.FragmentAnimalBinding
 import by.android.task4_1.db.AnimalEntity
-import by.android.task4_1.db.AnimalRoomDatabase
 import by.android.task4_1.interfaces.ButtonListener
 import by.android.task4_1.ui.MainActivity
 import by.android.task4_1.ui.animal.adapter.AnimalAdapter
 import by.android.task4_1.ui.sorting.SortByFragment
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class AnimalFragment : Fragment() {
     private lateinit var binding: FragmentAnimalBinding
@@ -83,7 +85,7 @@ class AnimalFragment : Fragment() {
         }
     }
 
-      fun getUpdatedAnimalList(list: List<AnimalEntity>) {
+    private fun getUpdatedAnimalList(list: List<AnimalEntity>) {
         animalAdapter.apply {
             updateAnimalList(list)
             notifyDataSetChanged()

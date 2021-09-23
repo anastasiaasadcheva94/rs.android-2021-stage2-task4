@@ -1,18 +1,14 @@
 package by.android.task4_1.ui
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import by.android.task4_1.ui.animal.AnimalFragment
 import by.android.task4_1.R
 import by.android.task4_1.databinding.ActivityMainBinding
 import by.android.task4_1.db.AnimalEntity
 import by.android.task4_1.db.AnimalRoomDatabase
 import by.android.task4_1.interfaces.ButtonListener
-import by.android.task4_1.ui.animal.adapter.AnimalAdapter
+import by.android.task4_1.ui.animal.AnimalFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -42,9 +38,9 @@ class MainActivity : AppCompatActivity(), ButtonListener {
 
     private fun openFirstFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, AnimalFragment())
-            .addToBackStack(null)
-            .commit()
+                .replace(R.id.container, AnimalFragment())
+                .addToBackStack(null)
+                .commit()
     }
 
     private fun openSecondFragment(nextFragment: Fragment) {
@@ -62,7 +58,7 @@ class MainActivity : AppCompatActivity(), ButtonListener {
     override fun filterByName() {
         val db = AnimalRoomDatabase.getDatabase(this)
         GlobalScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 sortedList = db.animalDao().getFilteredListByName()
             }
         }
@@ -71,7 +67,7 @@ class MainActivity : AppCompatActivity(), ButtonListener {
     override fun filterByAge() {
         val db = AnimalRoomDatabase.getDatabase(this)
         GlobalScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 sortedList = db.animalDao().getFilteredListByAge()
             }
         }
@@ -80,7 +76,7 @@ class MainActivity : AppCompatActivity(), ButtonListener {
     override fun filterByBreed() {
         val db = AnimalRoomDatabase.getDatabase(this)
         GlobalScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 sortedList = db.animalDao().getFilteredListByBreed()
             }
         }

@@ -2,12 +2,11 @@ package by.android.task4_1.ui.animal
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import by.android.task4_1.ui.animal.AnimalFragment
+import androidx.fragment.app.Fragment
 import by.android.task4_1.databinding.FragmentAnimalAddBinding
 import by.android.task4_1.db.AnimalEntity
 import by.android.task4_1.db.AnimalRoomDatabase
@@ -31,8 +30,8 @@ class AnimalNewAddFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentAnimalAddBinding.inflate(inflater, container, false)
 
@@ -49,7 +48,7 @@ class AnimalNewAddFragment : Fragment() {
         var breed: String
 
         binding.addButton.setOnClickListener {
-            if (binding.editName.text.isNotEmpty() && binding.editAge.text.isNotEmpty() && binding.editBreed.text.isNotEmpty()){
+            if (binding.editName.text.isNotEmpty() && binding.editAge.text.isNotEmpty() && binding.editBreed.text.isNotEmpty()) {
                 name = binding.editName.text.toString()
                 age = binding.editAge.text.toString()
                 breed = binding.editBreed.text.toString()
@@ -65,7 +64,7 @@ class AnimalNewAddFragment : Fragment() {
                 )
             } else {
                 Toast.makeText(activity, "Edit values", Toast.LENGTH_SHORT).show()
-          }
+            }
         }
     }
 }

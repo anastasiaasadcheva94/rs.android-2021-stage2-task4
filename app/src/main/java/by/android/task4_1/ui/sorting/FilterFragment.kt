@@ -15,7 +15,7 @@ class SortByFragment : Fragment() {
     private lateinit var binding: FragmentSortByBinding
 
     private lateinit var buttonListener: ButtonListener
-    
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {

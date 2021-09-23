@@ -12,15 +12,15 @@ abstract class AnimalRoomDatabase : RoomDatabase() {
     abstract fun animalDao(): AnimalDao
 
     companion object {
-          @Volatile
+        @Volatile
         private var INSTANCE: AnimalRoomDatabase? = null
 
         fun getDatabase(context: Context): AnimalRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AnimalRoomDatabase::class.java,
-                    "animal_database"
+                        context.applicationContext,
+                        AnimalRoomDatabase::class.java,
+                        "animal_database"
                 ).build()
                 INSTANCE = instance
                 // return instance
