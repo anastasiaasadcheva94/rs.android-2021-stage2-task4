@@ -6,4 +6,7 @@
     <string name="edit_age">Edit age</string>
     <string name="add">Add</string>
     <string name="edit_breed">Edit breed</string>
+    <string name="animal">Animal</string>
+    <string name="addNewAnimal">Add new animal</string>
+    <string name="sort_by">Sort by</string>
 </resources>

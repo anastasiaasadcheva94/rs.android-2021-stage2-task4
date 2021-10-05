@@ -21,7 +21,6 @@ class AnimalAdapter(private val animals: ArrayList<AnimalEntity>) : RecyclerView
         holder.name.text = "Name: " + animals[position].name
         holder.age.text = "Age: " +
                 animals[position].age
-
         holder.breed.text = "Breed: " + animals[position].breed
     }
 

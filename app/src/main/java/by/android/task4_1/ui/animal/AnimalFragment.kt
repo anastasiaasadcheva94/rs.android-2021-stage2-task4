@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.android.task4_1.R
 import by.android.task4_1.databinding.FragmentAnimalBinding
 import by.android.task4_1.db.AnimalEntity
 import by.android.task4_1.interfaces.ButtonListener
@@ -21,7 +22,6 @@ import kotlinx.coroutines.launch
 class AnimalFragment : Fragment() {
     private lateinit var binding: FragmentAnimalBinding
     private val animalAdapter: AnimalAdapter = AnimalAdapter(arrayListOf())
-
     private lateinit var buttonListener: ButtonListener
     private var sortedlist = listOf<AnimalEntity>()
 
@@ -40,7 +40,7 @@ class AnimalFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         binding = FragmentAnimalBinding.inflate(inflater, container, false)
-        binding.toolbar2.title = "Animal"
+        binding.toolbar.title = getString(R.string.animal)
         initButton()
         initUI()
         return binding.root
@@ -73,14 +73,14 @@ class AnimalFragment : Fragment() {
 
     private fun initButton() {
         binding.actionFilter.setOnClickListener {
-            buttonListener.second(
+            buttonListener.openNewFragment(
                     SortByFragment()
             )
         }
 
         binding.floatingActionButton.setOnClickListener {
-            buttonListener.second(
-                    AnimalNewAddFragment()
+            buttonListener.openNewFragment(
+                    AddNewAnimalFragment()
             )
         }
     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.android.task4_1.R
 import by.android.task4_1.ui.animal.AnimalFragment
 import by.android.task4_1.databinding.FragmentSortByBinding
 import by.android.task4_1.interfaces.ButtonListener
@@ -48,11 +49,11 @@ class SortByFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.root.title = "Sort by"
+        binding.toolbar.root.title = getString(R.string.sort_by)
     }
 
     private fun back() {
-        buttonListener.second(
+        buttonListener.openNewFragment(
                 AnimalFragment()
         )
     }
